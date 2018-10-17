@@ -1,6 +1,7 @@
 'use strict';
 
 const objectArray = [];
+const nameArray = [''];
 
 
 
@@ -26,6 +27,12 @@ HornImage.prototype.render = function() {
   $imgContainer.attr('class', '');
 }
 
+// HornImage.prototype.populateSelect = function() {
+//   // for (let i = 0; i < objectArray.length; i++){
+//   populateFilter(objectArray);
+//   // }
+// }
+
 let readJSON = function(){
   $.get('./data/page-1.json',data => {
     data.forEach(imageObject => {
@@ -33,13 +40,39 @@ let readJSON = function(){
       objectArray.push(newHorn);
 
     })
-  }).then(renderImage)
+  }).then(renderImage).then(renderSelect)
 }
 
 function renderImage() {
   objectArray.forEach(HornImage => {
     HornImage.render();
   })
+}
+
+function renderSelect() {
+  objectArray.forEach(text => {
+    populateFilter(text);
+  })
+}
+
+function populateFilter(text) {
+  // for (let i = 0; i < nameArray.length; i++){
+  //   console.log(text.keyword);
+  //   if (text.keyword === nameArray[i]){
+  //     break;
+  //   } else {
+  //     nameArray.push(text.keyword);
+  //     break;
+  //   }
+  // }
+  // console.log(nameArray);
+
+  $('select').append('<option class ="clone"></option>');
+  let $optContainer = $('option[class="clone"]');
+
+  $optContainer.text(text.keyword);
+  $optContainer.attr('class', '');
+
 }
 
 

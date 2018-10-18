@@ -1,7 +1,6 @@
 'use strict';
 
 const objectArray = [];
-const nameArray = [''];
 
 
 
@@ -16,8 +15,6 @@ function HornImage(imageObject){
 HornImage.prototype.render = function() {
   $('main').append('<div class = "clone"></div>');
   let $imgContainer = $('div[class="clone"]');
-  console.log($imgContainer);
-
   let $clonedImage = $('#photo-template').html();
 
   $imgContainer.html($clonedImage);
@@ -25,6 +22,7 @@ HornImage.prototype.render = function() {
   $imgContainer.find('img').attr('src', this.image_url);
   $imgContainer.find('p').text(this.description);
   $imgContainer.attr('class', '');
+  $imgContainer.attr('class',this.keyword);
 }
 
 // HornImage.prototype.populateSelect = function() {
@@ -50,28 +48,27 @@ function renderImage() {
 }
 
 function renderSelect() {
+  let duplicateArray = [];
   objectArray.forEach(text => {
-    populateFilter(text);
+    if( ! duplicateArray.includes(text.keyword) ) {
+      $('select').append('<option class ="clone"></option>');
+      let $optContainer = $('option[class="clone"]');
+      $optContainer.text(text.keyword);
+      duplicateArray.push(text.keyword);
+      $optContainer.attr('class', '');
+    }
   })
 }
 
-function populateFilter(text) {
-  // for (let i = 0; i < nameArray.length; i++){
-  //   console.log(text.keyword);
-  //   if (text.keyword === nameArray[i]){
-  //     break;
-  //   } else {
-  //     nameArray.push(text.keyword);
-  //     break;
-  //   }
-  // }
-  // console.log(nameArray);
 
-  $('select').append('<option class ="clone"></option>');
-  let $optContainer = $('option[class="clone"]');
 
-  $optContainer.text(text.keyword);
-  $optContainer.attr('class', '');
+$('select').on('change', changeView);
+
+function changeView() {
+  let selected = $(this).val();
+  console.log( $('.' + selected));
+  $('div').not('.' + selected).fadeOut();
+  $('.' + selected).fadeIn();
 
 }
 
